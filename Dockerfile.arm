@@ -1,0 +1,24 @@
+ARG BALENA_DEBIAN_TAG=buster
+ARG BALENA_DEBIAN_DIGEST=sha256:b32c2579e735f8257211c9b2c2eeab6db199907e138380833dbe2515cc6878e3
+
+FROM balenalib/raspberrypi3-debian:${BALENA_DEBIAN_TAG}@${BALENA_DEBIAN_DIGEST}
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONIOENCODING=UTF-8 \
+    FLASK_APP=/api.py \
+    FLASK_RUN_HOST=0.0.0.0 \
+    FLASK_RUN_PORT=8080 \
+    MANIFEST_FILE_PATH=/app/manifest.json \
+    UPRODIT_API_URL=https://api.uprodit.com
+
+COPY . /app/
+
+WORKDIR /app
+
+RUN apt-get update -y && \
+    apt-get install python3 python3-pip -y && \
+    pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt && \
+    rm -rf /var/lib/apt/lists/*
+
+CMD ["python3", "-m", "flask", "run"]
