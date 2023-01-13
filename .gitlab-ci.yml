@@ -1,5 +1,7 @@
 stages:
   - publish
+  - deliver
+  - deploy
 
 mirror:
   stage: publish

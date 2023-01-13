@@ -11,7 +11,6 @@ api = Api(app)
 
 health_check_routes = ['/', '/health', '/health/', '/v1/health', '/v1/health/']
 manifest_routes = ['/manifest', '/manifest/', '/v1/manifest', '/v1/manifest/']
-betteruptime_routes = ['/betteruptime', '/betteruptime/', '/v1/betteruptime', '/v1/betteruptime/']
 
 api.add_resource(RootEndPoint, *health_check_routes)
 api.add_resource(ManifestEndPoint, *manifest_routes)
