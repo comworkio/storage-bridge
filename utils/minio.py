@@ -12,7 +12,7 @@ BUCKET_FOLDER = os.getenv('BUCKET_FOLDER')
 
 minioClient = None
 
-if not any(is_disabled(setting) for setting in [BUCKET_URL, BUCKET_REGION, BUCKET_ACCESS_KEY, BUCKET_SECRET_KEY, BUCKET_NAME, BUCKET_FOLDER]):
+if not any(is_disabled(setting) for setting in [BUCKET_URL, BUCKET_REGION, BUCKET_ACCESS_KEY, BUCKET_SECRET_KEY, BUCKET_NAME]):
     minioClient = Minio(BUCKET_URL,
                     region=BUCKET_REGION,
                     access_key=BUCKET_ACCESS_KEY,
@@ -26,6 +26,6 @@ def get_bucket_name():
 
 def get_bucket_folder():
     if is_disabled(BUCKET_FOLDER):
-        return None
+        return "/"
 
     return "{}/".format(BUCKET_FOLDER)
