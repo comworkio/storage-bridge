@@ -12,9 +12,9 @@ BUCKET_FOLDER = os.getenv('BUCKET_FOLDER')
 minioClient = None
 
 if not any(is_disabled(setting) for setting in [BUCKET_URL, BUCKET_ACCESS_KEY, BUCKET_SECRET_KEY, BUCKET_NAME, BUCKET_FOLDER]):
-    minioClient = Minio(os.environ['BUCKET_URL'],
-                    access_key=os.environ['BUCKET_ACCESS_KEY'],
-                    secret_key=os.environ['BUCKET_SECRET_KEY'],
+    minioClient = Minio(BUCKET_URL,
+                    access_key=BUCKET_ACCESS_KEY,
+                    secret_key=BUCKET_SECRET_KEY,
                     secure=True)
 
 def get_minio_client():
