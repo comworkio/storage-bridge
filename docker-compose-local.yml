@@ -13,17 +13,6 @@ services:
       - storage-bridge
     ports:
       - 8080:8080
-  storage-bridge-redis:
-    image: redis:6.2.6
-    restart: always
-    container_name: storage-bridge-redis
-    networks:
-      - storage-bridge
-    volumes:
-      - storage-bridge-redis-data:/data
-
-volumes:
-  storage-bridge-redis-data:
 
 networks:
   storage-bridge:
