@@ -25,5 +25,6 @@ def bridge():
         log_msg("INFO", "[storage-bridge] listing bucket content : bucket = {}, folder = {}".format(bucket_name, bucket_folder))
         files = minioClient.list_objects(bucket_name, prefix=bucket_folder, recursive=True)
         for file in files:
-            log_msg("INFO", "[storage-bridge] processing file {}".format(file))
+            filename = file.object_name
+            log_msg("INFO", "[storage-bridge] processing file {}".format(filename))
         sleep(WAIT_TIME)
