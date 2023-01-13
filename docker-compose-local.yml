@@ -1,0 +1,30 @@
+version: "3.3"
+
+services: 
+  social-bridge:
+    image: comworkio/social-bridge:latest
+    container_name: social-bridge
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    env_file: 
+      - .env
+    networks:
+      - social-bridge
+    ports:
+      - 8080:8080
+  social-bridge-redis:
+    image: redis:6.2.6
+    restart: always
+    container_name: social-bridge-redis
+    networks:
+      - social-bridge
+    volumes:
+      - social-bridge-redis-data:/data
+
+volumes:
+  social-bridge-redis-data:
+
+networks:
+  social-bridge:
+    driver: bridge

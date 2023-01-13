@@ -1,0 +1,7 @@
+werkzeug==2.0.0
+flask-restful
+requests
+google-auth 
+google-auth-oauthlib 
+google-auth-httplib2
+minio

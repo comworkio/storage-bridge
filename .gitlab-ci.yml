@@ -9,3 +9,45 @@ mirror:
     - /^(main.*)$/
   tags:
     - mirror
+
+build_x86:
+  stage: deliver
+  script:
+    - setsid ./ci/docker-deliver.sh "x86" "storage-bridge" "0.1"
+  only:
+    refs:
+      - /^(main.*)$/
+    changes:
+      - .gitlab-ci.yml
+      - utils/*
+      - routes/*
+      - api.py
+      - requirements.txt
+      - ci/docker-deliver.sh
+      - ci/deploy.sh
+      - ci/compute-env.sh
+      - docker-compose-build-x86.yml
+      - Dockerfile
+  tags:
+    - imagesbuilder
+
+build_arm:
+  stage: deliver
+  script:
+    - setsid ./ci/docker-deliver.sh "arm" "storage-bridge" "0.1"
+  only:
+    refs:
+      - /^(main.*)$/
+    changes:
+      - .gitlab-ci.yml
+      - utils/*
+      - routes/*
+      - api.py
+      - requirements.txt
+      - ci/docker-deliver.sh
+      - ci/deploy.sh
+      - ci/compute-env.sh
+      - docker-compose-build-arm.yml
+      - Dockerfile.arm
+  tags:
+    - buildarm
