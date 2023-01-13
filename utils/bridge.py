@@ -1,7 +1,6 @@
 import os
 
 from time import sleep
-from utils.common import is_not_empty
 from utils.logger import log_msg
 from utils.minio import get_bucket_folder, get_bucket_name, get_minio_client
 
