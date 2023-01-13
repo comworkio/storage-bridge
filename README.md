@@ -2,6 +2,8 @@
 
 This project aim to be able to download documents from object storages such as S3 buckets and upload into Google drive.
 
+**_/!\ This work is in progress_**
+
 ## Git repositories
 
 * Main repo: https://gitlab.comwork.io/oss/storage-bridge
