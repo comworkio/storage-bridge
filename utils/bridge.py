@@ -9,7 +9,12 @@ WAIT_TIME = int(os.environ['WAIT_TIME'])
 def bridge():
     log_msg("INFO", "[storage-bridge] deployment of version {} !".format(os.environ['STORAGE_BRIDGE_VERSION']))
     minioClient = get_minio_client()
-    files = minioClient.list_objects(get_bucket_name(), prefix=get_bucket_folder(), recursive=True)
-    for file in files:
-        log_msg("INFO", "[storage-bridge] processing file {}".format(file))
-    sleep(WAIT_TIME)
+    if None == minioClient:
+        log_msg("WARN", "[storage-bridge] unable to connect to the bucket... check the environment variables")
+        return
+
+    while True:
+        files = minioClient.list_objects(get_bucket_name(), prefix=get_bucket_folder(), recursive=True)
+        for file in files:
+            log_msg("INFO", "[storage-bridge] processing file {}".format(file))
+        sleep(WAIT_TIME)
