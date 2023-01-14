@@ -7,3 +7,4 @@ export SLACK_EMOJI=":drive:"
 export SLACK_USERNAME="storage-bridge"
 export SLACK_TRIGGER=on
 export STORAGE_BRIDGE_VERSION="${CI_COMMIT_BRANCH}-${CI_COMMIT_SHORT_SHA}"
+export BUCKET_FOLDER="YYYY-MM"

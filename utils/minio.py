@@ -1,5 +1,6 @@
 import os
 
+from datetime import datetime
 from minio import Minio
 from utils.common import is_disabled
 
@@ -31,5 +32,8 @@ def get_bucket_tmp_dir():
 def get_bucket_folder():
     if is_disabled(BUCKET_FOLDER):
         return "/"
-
-    return "{}/".format(BUCKET_FOLDER)
+    elif BUCKET_FOLDER == "YYYY-MM":
+        now = datetime.now()
+        return "{}/".format(now.strftime("%Y-%m"))
+    else:
+        return "{}/".format(BUCKET_FOLDER)
