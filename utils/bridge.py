@@ -2,8 +2,9 @@ import os
 
 from time import sleep
 from utils.common import is_not_empty
-from utils.drive import get_drive_service
+from utils.drive import get_drive_folder, get_drive_service
 from utils.logger import log_msg
+from googleapiclient.errors import HttpError
 from utils.minio import get_bucket_folder, get_bucket_name, get_bucket_tmp_dir, get_minio_client
 
 WAIT_TIME = int(os.environ['WAIT_TIME'])
@@ -36,7 +37,13 @@ def bridge():
             log_msg("INFO", "[storage-bridge] processing file {}".format(filename))
             minioClient.fget_object(bucket_name, filename, tmp_dir + filename)
 
-            file_id = drive_service.files().get(fileId=filename, fields='id').execute()
+            file_id = None
+            drive_path = "{}{}".format(get_drive_folder(), filename)
+            try:
+                file_id = drive_service.files().get(fileId=drive_path, fields='id').execute()
+            except HttpError as e:
+                log_msg("DEBUG", "[storage-bridge] the file {} not exists : {}".format(filename, e))
+
             if is_not_empty(file_id):
                 log_msg("DEBUG", "[storage-bridge] the file {} already exists on drive".format(filename))
                 continue
