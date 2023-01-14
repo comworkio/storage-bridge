@@ -5,6 +5,7 @@ import os
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaFileUpload
 from utils.common import is_disabled, is_empty, is_not_empty
 from utils.logger import log_msg
 
@@ -34,15 +35,27 @@ def get_file_id(path):
 def is_file_exists(path):
     return is_not_empty(get_file_id(path))
 
-def create_folder(path, parent):
+def create_folder(path):
     folder_metadata = {
         'name': path,
-        'mimeType': 'application/vnd.google-apps.folder',
-        'parents': [parent]
+        'mimeType': 'application/vnd.google-apps.folder'
     }
 
     try:
         return drive_service.files().create(body=folder_metadata, fields='id').execute()
     except HttpError as e:
         log_msg("ERROR", "[drive][create_folder] could not create folder {} : {}".format(path, e))
+        return None
+
+def upload_file(filename, path, mimetype):
+    file_metadata = {
+        'name': filename
+    }
+    
+    filepath = "{}{}".format(path, filename)
+    media = MediaFileUpload(filepath, mimetype=mimetype)
+    try:
+        return drive_service.files().create(body=file_metadata, media_body=media, fields='id').execute()
+    except HttpError as e:
+        log_msg("ERROR", "[drive][upload_file] could not file folder {} : {}".format(filepath, e))
         return None

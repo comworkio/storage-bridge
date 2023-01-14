@@ -1,7 +1,7 @@
 import os
 
 from time import sleep
-from utils.drive import create_folder, get_drive_folder, get_drive_service, is_file_exists
+from utils.drive import create_folder, get_drive_folder, get_drive_service, is_file_exists, upload_file
 from utils.logger import log_msg
 from utils.minio import get_bucket_folder, get_bucket_name, get_bucket_tmp_dir, get_minio_client
 
@@ -41,11 +41,12 @@ def bridge():
             drive_subfolder = "{}{}".format(drive_folder, folder)
 
             if not is_file_exists(drive_subfolder):
-                create_folder(folder, drive_folder)
+                create_folder(drive_subfolder)
 
             if is_file_exists(drive_path):
                 log_msg("DEBUG", "[storage-bridge] the file {} already exists on drive".format(filename))
                 continue
 
+            upload_file(filename, tmp_dir, 'application/pdf')
             os.remove(tmp_dir + filename)
         sleep(WAIT_TIME)
