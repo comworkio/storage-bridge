@@ -1,16 +1,21 @@
+import base64
+import json
 import os
 
+from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from utils.common import is_disabled, is_empty, is_not_empty
 from utils.logger import log_msg
 
-API_KEY = os.getenv('GOOGLE_API_KEY')
+SA_B64 = os.getenv('GOOGLE_SA_B64')
 DRIVE_FOLDER = os.getenv('GOOGLE_DRIVE_FOLDER')
 
 drive_service = None
-if not any(is_disabled(setting) for setting in [API_KEY]):
-    drive_service = build('drive', 'v3', developerKey=API_KEY)
+if not any(is_disabled(setting) for setting in [SA_B64]):
+    sa = base64.b64decode(SA_B64).decode('utf-8')
+    creds = Credentials.from_service_account_info(json.loads(sa))
+    drive_service = build('drive', 'v3', credentials=creds)
 
 def get_drive_service():
     return drive_service
