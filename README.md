@@ -30,6 +30,12 @@ $ cp .env.dist .env # replace the environment values in this file
 $ docker-compose -f docker-compose-local.yml up --force-recreate --build
 ```
 
+For generating a Google drive API key, according to [this tutorial](https://developers.google.com/drive/api/quickstart/python):
+* [Enable the API](https://console.cloud.google.com/flows/enableapi?apiid=drive.googleapis.com)
+* [Go to credentials](https://console.cloud.google.com/apis/credentials)
+* Click Create Credentials > API keys
+* Copy-paste the key in the `GOOGLE_API_KEY` environment variable
+
 ## Restful API
 
 ### Healthcheck
