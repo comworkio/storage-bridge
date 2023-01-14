@@ -1,9 +1,11 @@
 import os
 
 from time import sleep
+from utils.common import is_not_empty
 from utils.drive import get_drive_service, upload_file
 from utils.logger import log_msg
 from utils.minio import get_bucket_folder, get_bucket_name, get_bucket_tmp_dir, get_minio_client
+from utils.redis import get_cache_value, set_cache_value
 
 WAIT_TIME = int(os.environ['WAIT_TIME'])
 
@@ -33,8 +35,14 @@ def bridge():
         for file in files:
             filepath = file.object_name
             filename = os.path.basename(filepath)
+            fid = get_cache_value(filename)
+            if is_not_empty(fid):
+                log_msg("DEBUG", "[storage-bridge] file {} already uploaded (fid = {})".format(filename, fid))
+                continue
+
             log_msg("INFO", "[storage-bridge] processing file {}".format(filepath))
             minioClient.fget_object(bucket_name, filepath, tmp_dir + filename)
-            upload_file(filename, tmp_dir, 'application/pdf')
+            fd = upload_file(filename, tmp_dir, 'application/pdf')
+            set_cache_value(filename, fd.get('id'))
             os.remove(tmp_dir + filename)
         sleep(WAIT_TIME)

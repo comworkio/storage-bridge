@@ -2,17 +2,14 @@ version: "3.3"
 
 services: 
   storage-bridge:
-    image: comworkio/storage-bridge:latest
+    image: comworkio/storage-bridge:${STORAGE_BRIDGE_VERSION}
     container_name: storage-bridge
-    build: 
-      context: .
-      dockerfile: Dockerfile
     env_file: 
-      - .env
+      - storage_bridge.env
     networks:
       - storage-bridge
     ports:
-      - 8080:8080
+      - 7893:8080
   storage-bridge-redis:
     image: redis:6.2.6
     restart: always
@@ -20,10 +17,10 @@ services:
     networks:
       - storage-bridge
     volumes:
-      - storage-bridge-redis-data:/data
+      - storage-bridge-redis:/data
 
 volumes:
-  storage-bridge-redis-data:
+  storage-bridge-redis:
 
 networks:
   storage-bridge:
