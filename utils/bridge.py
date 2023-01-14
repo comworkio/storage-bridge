@@ -29,7 +29,6 @@ def bridge():
 
     while True:
         bucket_folder = get_bucket_folder()
-        
         log_msg("INFO", "[storage-bridge] listing bucket content : bucket = {}, folder = {}".format(bucket_name, bucket_folder))
         files = minioClient.list_objects(bucket_name, prefix=bucket_folder, recursive=True)
         for file in files:
