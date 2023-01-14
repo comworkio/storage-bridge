@@ -1,7 +1,8 @@
 import os
 
 from googleapiclient.discovery import build
-from utils.common import is_disabled, is_empty
+from googleapiclient.errors import HttpError
+from utils.common import is_disabled, is_empty, is_not_empty
 from utils.logger import log_msg
 
 API_KEY = os.getenv('GOOGLE_API_KEY')
@@ -18,3 +19,25 @@ def get_drive_folder():
     if is_empty(DRIVE_FOLDER):
         return ""
     return "{}/".format(DRIVE_FOLDER)
+
+def get_file_id(path):
+    try:
+        return drive_service.files().get(fileId=path, fields='id').execute()
+    except HttpError as e:
+        log_msg("DEBUG", "[drive][is_file_exists] the path {} not exists : {}".format(path, e))
+
+def is_file_exists(path):
+    return is_not_empty(get_file_id(path))
+
+def create_folder(path, parent):
+    folder_metadata = {
+        'name': path,
+        'mimeType': 'application/vnd.google-apps.folder',
+        'parents': [parent]
+    }
+
+    try:
+        return drive_service.files().create(body=folder_metadata, fields='id').execute()
+    except HttpError as e:
+        log_msg("ERROR", "[drive][create_folder] could not create folder {} : {}".format(path, e))
+        return None
