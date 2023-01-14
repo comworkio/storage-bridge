@@ -30,12 +30,24 @@ $ cp .env.dist .env # replace the environment values in this file
 $ docker-compose -f docker-compose-local.yml up --force-recreate --build
 ```
 
-For generating a Google drive API key, according to [this tutorial](https://developers.google.com/drive/api/quickstart/python):
-* [Enable the API](https://console.cloud.google.com/flows/enableapi?apiid=drive.googleapis.com)
+For generating a Google drive API key:
+* [Enable this API](https://console.cloud.google.com/flows/enableapi?apiid=drive.googleapis.com)
 * [Go to credentials](https://console.cloud.google.com/apis/credentials)
 * Click Create Credentials > Service Account
-* Choose the JSON format and hash the content in base64
+
+The result should be like:
+![sa](./img/sa.png)
+
+* Create a key and choose the JSON format and hash the content in base64
+![json_key](./img/json_key.png)
+
 * Copy-paste the base64 content in the `GOOGLE_SA_B64` environment variable
+
+* Create a folder on drive and share-it with the service account:
+
+![share](./img/share.png)
+
+Copy-paste the folder id into the `GOOGLE_DRIVE_FOLDER_ID` environment variable
 
 ## Restful API
 
