@@ -49,7 +49,7 @@ The result should be like:
 
 Copy-paste the folder id into the `GOOGLE_DRIVE_FOLDER_ID` environment variable
 
-## Environment variable
+## Environment variables
 
 * `LOG_LEVEL`: log level (`INFO`, `DEBUG`)
 * `SLACK_TRIGGER`: enable/disable Slack (`on` or `off`)
