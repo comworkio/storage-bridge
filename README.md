@@ -2,6 +2,8 @@
 
 This project aim to be able to download documents from object storages such as S3 buckets and upload into Google drive.
 
+![logo](./img/logo.png)
+
 ## Git repositories
 
 * Main repo: https://gitlab.comwork.io/oss/storage-bridge
@@ -46,6 +48,27 @@ The result should be like:
 ![share](./img/share.png)
 
 Copy-paste the folder id into the `GOOGLE_DRIVE_FOLDER_ID` environment variable
+
+## Environment variable
+
+* `LOG_LEVEL`: log level (`INFO`, `DEBUG`)
+* `SLACK_TRIGGER`: enable/disable Slack (`on` or `off`)
+* `SLACK_CHANNEL`: slack channel (i.e: `#storage-bridge`)
+* `SLACK_TOKEN`: slack token
+* `SLACK_USERNAME`: slack username
+* `SLACK_EMOJI`: slack avatar based on an existing emoji (i.e: `:drive:`)
+* `WAIT_TIME`: wait time during two scans in seconds (i.e: `3600` for one hour)
+* `BUCKET_URL`: object storage's bucket URL
+* `BUCKET_REGION`: object storage's region code
+* `BUCKET_ACCESS_KEY`: object storage's access key
+* `BUCKET_SECRET_KEY`: object storage's secret key
+* `BUCKET_NAME`: bucket name
+* `BUCKET_FOLDER`: bucket folder (it can be dynamique such as `YYYY-MM` for searching the current month folder `2023-01`)
+* `GOOGLE_SA_B64`: google service account hashed in base64
+* `GOOGLE_DRIVE_FOLDER_ID`: id of google drive target folder
+* `REDIS_HOST`: redis host (redis is used to keep in cache, the files that were already uploaded)
+* `REDIS_PORT`: redis port (i.e: `6379`)
+* `REDIS_TTL`: redis retention time in seconds (i.e: `2678400` for 31 days)
 
 ## Restful API
 
