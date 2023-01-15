@@ -6,7 +6,7 @@ from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from googleapiclient.http import MediaFileUpload
-from utils.common import is_disabled, is_empty, is_not_empty
+from utils.common import is_disabled
 from utils.logger import log_msg
 
 SA_B64 = os.getenv('GOOGLE_SA_B64')
