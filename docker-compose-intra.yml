@@ -3,6 +3,7 @@ version: "3.3"
 services: 
   storage-bridge:
     image: comworkio/storage-bridge:${STORAGE_BRIDGE_VERSION}
+    restart: always
     container_name: storage-bridge
     env_file: 
       - storage_bridge.env
