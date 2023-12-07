@@ -9,7 +9,7 @@ echo "LOG_LEVEL=${LOG_LEVEL}" >> ${ENV_FILE}
 echo "WAIT_TIME=${WAIT_TIME}" >> ${ENV_FILE}
 echo "STORAGE_BRIDGE_VERSION=${STORAGE_BRIDGE_VERSION}" >> ${ENV_FILE}
 
-env|grep -E "^(GOOGLE_|SLACK_|BUCKET_|REDIS_)"|while read -r; do
+env|grep -E "^(GOOGLE_|DISCORD_|SLACK_|BUCKET_|REDIS_)"|while read -r; do
   echo "${REPLY}" >> "${ENV_FILE}"
 done
 

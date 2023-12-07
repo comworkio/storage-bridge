@@ -2,7 +2,6 @@
 
 export LOG_LEVEL=INFO
 export WAIT_TIME=3600
-export SLACK_CHANNEL="#storage-bridge"
 export SLACK_EMOJI=":drive:"
 export SLACK_USERNAME="storage-bridge"
 export SLACK_TRIGGER=on

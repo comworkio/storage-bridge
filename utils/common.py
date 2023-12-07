@@ -33,3 +33,6 @@ def is_empty (var):
 
 def is_disabled (var):
     return is_empty(var) or "changeit" == var
+
+def is_enabled(var):
+    return not is_disabled(var)
