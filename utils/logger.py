@@ -4,7 +4,7 @@ import logging
 import json
 import sys
 
-from utils.common import is_enabled, is_true
+from utils.common import is_disabled, is_enabled, is_true
 
 LOG_LEVEL = os.environ['LOG_LEVEL']
 LOG_FORMAT = os.getenv('LOG_FORMAT')
@@ -15,6 +15,13 @@ _slack_public_token = os.getenv('SLACK_TOKEN_PUBLIC')
 _discord_token = os.getenv('DISCORD_TOKEN')
 _discord_public_token = os.getenv('DISCORD_TOKEN_PUBLIC')
 
+_username = os.getenv('SLACK_USERNAME')
+if is_disabled(_username):
+    _username = os.getenv('DISCORD_USERNAME')
+
+if is_disabled(_username):
+    _username = "logger"
+
 def slack_message(log_level, message, is_public):
     token = _slack_token
     if is_public and is_enabled(_slack_public_token):
@@ -22,9 +29,8 @@ def slack_message(log_level, message, is_public):
             slack_message(log_level, message, False)
         token = _slack_public_token
 
-    data = { "attachments": [{ "color": get_color_level(log_level), "text": message, "title": log_level }], "username": os.environ['SLACK_USERNAME'], "channel": os.environ['SLACK_CHANNEL'], "icon_emoji": os.environ['SLACK_EMOJI'] }
-
     if is_enabled(token):
+        data = { "attachments": [{ "color": get_color_level(log_level), "text": message, "title": log_level }], "username": _username, "channel": os.environ['SLACK_CHANNEL'], "icon_emoji": os.environ['SLACK_EMOJI'] }
         requests.post("https://hooks.slack.com/services/{}".format(token), json = data)
 
 def discord_message(log_level, message, is_public):
@@ -34,8 +40,8 @@ def discord_message(log_level, message, is_public):
             discord_message(log_level, message, False)
         token = _discord_public_token
 
-    data = { "attachments": [{ "color": get_color_level(log_level), "text": message, "title": log_level }], "username": os.environ['SLACK_USERNAME'] }
     if is_enabled(token):
+        data = { "attachments": [{ "color": get_color_level(log_level), "text": message, "title": log_level }], "username": _username }
         requests.post("https://discord.com/api/webhooks/{}/slack".format(token), json = data)
 
 def is_level_partof(level, levels):
