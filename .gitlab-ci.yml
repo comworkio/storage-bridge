@@ -33,27 +33,6 @@ build_x86:
   tags:
     - imagesbuilder
 
-build_arm:
-  stage: deliver
-  script:
-    - setsid ./ci/docker-deliver.sh "arm" "storage-bridge" "1.1"
-  only:
-    refs:
-      - /^(main.*)$/
-    changes:
-      - .gitlab-ci.yml
-      - utils/*
-      - routes/*
-      - api.py
-      - requirements.txt
-      - ci/docker-deliver.sh
-      - ci/deploy.sh
-      - ci/compute-env.sh
-      - docker-compose-build-arm.yml
-      - Dockerfile.arm
-  tags:
-    - buildarm
-
 deploy:
   stage: deploy
   script:

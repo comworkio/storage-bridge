@@ -14,4 +14,4 @@ env|grep -E "^(GOOGLE_|DISCORD_|SLACK_|BUCKET_|REDIS_)"|while read -r; do
 done
 
 docker rmi -f "comworkio/storage-bridge:${STORAGE_BRIDGE_VERSION}" || :
-docker-compose -f docker-compose-intra.yml up -d --force-recreate
+docker compose -f docker-compose-intra.yml up -d --force-recreate
